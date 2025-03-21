@@ -1,84 +1,107 @@
-# Turborepo starter
+# Course Auto Viewer
 
-This Turborepo starter is maintained by the Turborepo core team.
+A simple web application to automate course viewing with a Svelte (TypeScript) frontend and Express (TypeScript) backend, set up as a Turborepo monorepo.
 
-## Using this example
-
-Run the following command:
-
-```sh
-npx create-turbo@latest
-```
-
-## What's inside?
-
-This Turborepo includes the following packages/apps:
-
-### Apps and Packages
-
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
+## Project Structure
 
 ```
-cd my-turborepo
-pnpm build
+course-viewer/
+├── apps/
+│   ├── frontend/         # Svelte + TypeScript frontend application
+│   └── backend/          # Express + TypeScript API server
+└── packages/             # Shared packages (if needed in the future)
 ```
 
-### Develop
+## Getting Started
 
-To develop all apps and packages, run the following command:
+### Prerequisites
 
-```
-cd my-turborepo
-pnpm dev
-```
+- Node.js v14 or later
+- npm v7 or later
 
-### Remote Caching
+### Installation
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
+1. Clone the repository
 
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-```
-cd my-turborepo
-npx turbo login
+```bash
+git clone <repository-url>
+cd course-viewer
 ```
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+2. Install dependencies
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```
-npx turbo link
+```bash
+npm install
 ```
 
-## Useful Links
+3. Set up environment variables
 
-Learn more about the power of Turborepo:
+```bash
+# Create .env file in apps/backend
+cp apps/backend/.env.example apps/backend/.env
+# Edit the file with your configuration
+```
 
-- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
+### Development
+
+Start both frontend and backend in development mode:
+
+```bash
+npm run dev
+```
+
+Or start them individually:
+
+```bash
+# Frontend only
+npm run dev --filter=frontend
+
+# Backend only
+npm run dev --filter=backend
+```
+
+### Building for Production
+
+Build all applications:
+
+```bash
+npm run build
+```
+
+Start the production build:
+
+```bash
+npm run start
+```
+
+## Backend API Endpoints
+
+The backend provides the following API endpoints:
+
+- `GET /api/health`: Check server health
+- `GET /api/courses`: Get all available courses
+- `GET /api/courses/:id`: Get specific course details
+- `POST /api/courses/:id/start`: Start automatic viewing of a course
+- `POST /api/courses/:id/stop`: Stop viewing a course
+- `GET /api/courses/status`: Get current status of running courses
+
+## Customization
+
+To implement your specific API calls for course viewing, modify the course controller in:
+
+```
+apps/backend/src/controllers/courseController.ts
+```
+
+## Technology Stack
+
+- **Frontend**:
+    - Svelte/SvelteKit with TypeScript
+    - Tailwind CSS for styling
+- **Backend**:
+    - Node.js with Express in TypeScript
+    - Axios for API requests
+- **Build & Development**:
+    - Turborepo for monorepo management
+    - TypeScript for type safety
+    - ESLint for code linting

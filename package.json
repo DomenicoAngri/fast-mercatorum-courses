@@ -1,5 +1,5 @@
 {
-    "name": "FastCourseUnimercatorum",
+    "name": "fastcourse",
     "version": "0.0.1",
     "description": "Little web-app to watch automatically video course on Unimercatorum platform.",
     "private": true,
