@@ -1,33 +1,33 @@
 {
     "name": "backend",
-    "version": "0.0.1",
+    "version": "0.2.0",
     "description": "Backend with nodeJS and Express for FastCourse - Unimercatorum.",
-    "main": "index.js",
+    "private": true,
+    "type": "module",
+    "main": "dist/index.js",
     "scripts": {
-        "dev": "nodemon --exec ts-node src/index.ts",
+        "dev": "tsx watch src/index.ts",
         "build": "tsc",
-        "start": "node dist/index.js",
-        "lint": "eslint . --ext .ts"
+        "start": "node --experimental-specifier-resolution=node dist/index.js",
+        "lint": "eslint src --ext .ts"
     },
-    "keywords": [],
-    "author": "",
-    "license": "ISC",
-    "type": "commonjs",
     "dependencies": {
-        "axios": "^1.8.4",
         "cors": "^2.8.5",
         "dotenv": "^16.4.7",
-        "express": "^4.21.2"
+        "express": "^4.21.2",
+        "jsonwebtoken": "^9.0.2",
+        "node-fetch": "^3.3.2"
     },
     "devDependencies": {
         "@types/cors": "^2.8.17",
         "@types/express": "^5.0.1",
+        "@types/jsonwebtoken": "^9.0.9",
         "@types/node": "^22.13.11",
         "@typescript-eslint/eslint-plugin": "^8.27.0",
         "@typescript-eslint/parser": "^8.27.0",
         "eslint": "^9.23.0",
-        "nodemon": "^3.1.9",
         "ts-node": "^10.9.2",
+        "tsx": "^4.6.0",
         "typescript": "^5.8.2"
     }
 }

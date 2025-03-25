@@ -1,36 +1,45 @@
-import { useState } from "preact/hooks";
-import preactLogo from "./assets/preact.svg";
-import viteLogo from "/vite.svg";
+import { FunctionComponent } from "preact";
+import { useState, useEffect } from "preact/hooks";
+import Login from "./pages/Login/Login";
 import "./app.css";
 
-export function App() {
-    const [count, setCount] = useState(0);
+const App: FunctionComponent = () => {
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
-    return (
-        <>
-            <div class="bg-red-500">
-                <a href="https://vite.dev" target="_blank">
-                    <img src={viteLogo} class="logo" alt="Vite logo" />
-                </a>
-                <a href="https://preactjs.com" target="_blank">
-                    <img src={preactLogo} class="logo preact" alt="Preact logo" />
-                </a>
-            </div>
-            <h1>Vite + Preact</h1>
-            <div class="card">
-                <button onClick={() => setCount((count) => count + 1)}>count is {count}</button>
-                <p>
-                    Edit <code>src/app.tsx</code> and save to test HMR
-                </p>
-            </div>
-            <p>
-                Check out{" "}
-                <a href="https://preactjs.com/guide/v10/getting-started#create-a-vite-powered-preact-app" target="_blank">
-                    create-preact
-                </a>
-                , the official Preact + Vite starter
-            </p>
-            <p class="read-the-docs">Click on the Vite and Preact logos to learn more</p>
-        </>
+    useEffect(() => {
+        // Check if user is authenticated
+        const token = localStorage.getItem("token");
+        const tokenExpiry = localStorage.getItem("token_expiry");
+
+        if (token && tokenExpiry && parseInt(tokenExpiry) > Date.now()) {
+            setIsAuthenticated(true);
+        } else {
+            // Clear invalid tokens
+            localStorage.removeItem("token");
+            localStorage.removeItem("token_expiry");
+        }
+    }, []);
+
+    // This will be replaced with your actual application
+    // once we implement the course viewing features
+    const Dashboard = () => (
+        <div className="p-4">
+            <h1 className="text-xl font-bold">Dashboard</h1>
+            <p>You are logged in!</p>
+            <button
+                className="mt-4 px-4 py-2 bg-red-500 text-white rounded"
+                onClick={() => {
+                    localStorage.removeItem("token");
+                    localStorage.removeItem("token_expiry");
+                    setIsAuthenticated(false);
+                }}
+            >
+                Logout
+            </button>
+        </div>
     );
-}
+
+    return <div>{isAuthenticated ? <Dashboard /> : <Login />}</div>;
+};
+
+export default App;
