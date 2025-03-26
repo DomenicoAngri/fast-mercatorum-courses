@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import * as dotenv from "dotenv";
 import routes from "./routes/index.js";
+import { notFoundHandler, errorHandler } from "./middleware/error/error.middleware.js";
 
 // Load environment variables
 dotenv.config();
@@ -20,6 +21,12 @@ app.use("/api", routes);
 app.get("/health", (req, res) => {
     res.status(200).json({ status: "ok" });
 });
+
+// 404 middleware handler route not found - must be after all defined routes.
+app.use(notFoundHandler);
+
+// Global middleware error handler - must be the last middleware.
+app.use(errorHandler);
 
 // Start the server
 app.listen(PORT, () => {

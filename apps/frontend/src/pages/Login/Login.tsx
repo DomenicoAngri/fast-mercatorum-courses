@@ -2,12 +2,6 @@ import { useState } from "preact/hooks";
 import { FunctionComponent } from "preact";
 import { LoginFormData, LoginResponse } from "./Login.types";
 
-// TODO - Vedere i todo
-// TODO - Vedere i console log
-// TODO - Sistemare quando le credenziali sono errate esce internal server error
-// TODO - Sistemare la risposta della login
-// TODO - Sistemare il logout
-
 const Login: FunctionComponent = () => {
     const [formData, setFormData] = useState<LoginFormData>({
         username: "",
@@ -43,8 +37,6 @@ const Login: FunctionComponent = () => {
                 body: JSON.stringify(formData),
             });
 
-            console.log("RESPONSE --> ", response);
-
             if (!response.ok) {
                 const errorData = await response.json();
                 throw new Error(errorData.message || "Login failed");
@@ -59,8 +51,7 @@ const Login: FunctionComponent = () => {
             // Redirect to dashboard or main page
             window.location.href = "/dashboard";
         } catch (err) {
-            console.log("ERROR in catch --> ", err);
-            setError(err instanceof Error ? err.message : "An unknown error occurred... 😱💣💥");
+            setError(err instanceof Error ? err.message : "An unknown error occurred... 😱");
         } finally {
             setIsLoading(false);
         }

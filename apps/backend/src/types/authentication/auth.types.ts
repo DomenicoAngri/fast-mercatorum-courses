@@ -1,7 +1,7 @@
 /**
  * Login request data structure.
  */
-export interface LoginRequest {
+export interface LoginRequestInterface {
     username: string;
     password: string;
 }
@@ -9,7 +9,7 @@ export interface LoginRequest {
 /**
  * Login response from auth API if successful.
  */
-export interface LoginResponseOk {
+export interface LoginResponseOkInterface {
     access_token: string;
     refresh_token: string;
     expires_in: number;
@@ -22,6 +22,6 @@ export interface LoginResponseOk {
 /**
  * Login response from auth API if unsuccessful.
  */
-export interface LoginResponseError {
+export interface LoginResponseErrorInterface {
     error_description?: string;
 }

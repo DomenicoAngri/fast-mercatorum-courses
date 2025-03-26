@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { LoginRequest } from "../../types/authentication/auth.types.js";
+import { LoginRequestInterface } from "../../types/authentication/auth.types.js";
 import { containsSqlInjectionPatterns } from "./auth.middleware.utils.js";
 
 // TODO - Vedere se eliminare dopo, se non uso JWT, anche se eliminare libreria package.json.
@@ -19,7 +19,7 @@ import { containsSqlInjectionPatterns } from "./auth.middleware.utils.js";
 
 export const validateCredentialsMiddleware = (req: Request, res: Response, next: NextFunction): void => {
     try {
-        const { username, password } = req.body as LoginRequest;
+        const { username, password } = req.body as LoginRequestInterface;
 
         // === USERNAME VALIDATION ===
 
@@ -112,42 +112,42 @@ export const validateCredentialsMiddleware = (req: Request, res: Response, next:
     }
 };
 
-export const escapePasswordSpecialChars = (req: Request, res: Response, next: NextFunction): void => {
-    try {
-        const { password } = req.body as LoginRequest;
+// export const escapePasswordSpecialChars = (req: Request, res: Response, next: NextFunction): void => {
+//     try {
+//         const { password } = req.body as LoginRequest;
 
-        req.body.password = password
-            // Escape backslashes - Must be first!
-            .replace(/\\/g, "\\\\")
+//         req.body.password = password
+//             // Escape backslashes - Must be first!
+//             .replace(/\\/g, "\\\\")
 
-            // Escape single quotes
-            .replace(/'/g, "\\'")
+//             // Escape single quotes
+//             .replace(/'/g, "\\'")
 
-            // Escape double quotes
-            .replace(/"/g, '\\"')
+//             // Escape double quotes
+//             .replace(/"/g, '\\"')
 
-            // Escape newlines
-            .replace(/\n/g, "\\n")
+//             // Escape newlines
+//             .replace(/\n/g, "\\n")
 
-            // Escape carriage returns
-            .replace(/\r/g, "\\r")
+//             // Escape carriage returns
+//             .replace(/\r/g, "\\r")
 
-            // Escape tabs
-            .replace(/\t/g, "\\t")
+//             // Escape tabs
+//             .replace(/\t/g, "\\t")
 
-            // Escape null characters;
-            .replace(/\0/g, "\\0");
+//             // Escape null characters;
+//             .replace(/\0/g, "\\0");
 
-        next();
-    } catch (error) {
-        console.error("Escape password special characters error: ", error);
+//         next();
+//     } catch (error) {
+//         console.error("Escape password special characters error: ", error);
 
-        res.status(500).json({
-            success: false,
-            message: "An error occurred during escape password special characters.",
-        });
-    }
-};
+//         res.status(500).json({
+//             success: false,
+//             message: "An error occurred during escape password special characters.",
+//         });
+//     }
+// };
 
 // export const authMiddleware = (req: AuthRequest, res: Response, next: NextFunction): void => {
 //     try {

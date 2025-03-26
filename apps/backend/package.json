@@ -1,6 +1,6 @@
 {
     "name": "backend",
-    "version": "0.3.0",
+    "version": "0.5.0",
     "description": "Backend with nodeJS and Express for FastCourse - Unimercatorum.",
     "private": true,
     "type": "module",

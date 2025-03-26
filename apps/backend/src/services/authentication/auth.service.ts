@@ -1,10 +1,23 @@
 import fetch from "node-fetch";
-import { LoginRequest, LoginResponseOk, LoginResponseError } from "../../types/authentication/auth.types.js";
+import { LoginRequestInterface, LoginResponseOkInterface, LoginResponseErrorInterface } from "../../types/authentication/auth.types.js";
+
+import { createApiClient } from "../../utils/api-client.js";
+
+// Create a pre-configured API client for authentication API
+const authApiClient = createApiClient({
+    baseUrl: "https://signin-api.prod.multiversity.click",
+    apiName: "Authentication API",
+});
+
+// TODO - Sistemare la risposta della login
+// TODO - Sistemare tutto il flusso da service fino ad index
+// TODO - Capire se usare Login Response personale ok o error.
+// TODO - Sistemare il logout
 
 /**
  * Service for handling login logic.
  */
-export const loginService = async (loginData: LoginRequest): Promise<LoginResponseOk> => {
+export const loginService = async (loginData: LoginRequestInterface): Promise<LoginResponseOkInterface> => {
     // Prepare the payload for the authentication API.
     const payload = {
         client_id: 5,
@@ -14,8 +27,6 @@ export const loginService = async (loginData: LoginRequest): Promise<LoginRespon
         username: loginData.username,
         password: loginData.password,
     };
-
-    console.log("PAYLOAD --> ", payload);
 
     // Call the external authentication API.
     const response = await fetch("https://signin-api.prod.multiversity.click/oauth/token", {
@@ -27,17 +38,15 @@ export const loginService = async (loginData: LoginRequest): Promise<LoginRespon
         body: JSON.stringify(payload),
     });
 
-    console.log("RESPONSE --> ", response);
-
     const data = await response.json();
 
     // If the external API returns an error.
     if (!response.ok) {
-        const dataError: LoginResponseError = data ? data : { error_description: "Authentication failed." };
+        const dataError: LoginResponseErrorInterface = data ? data : { error_description: "Authentication failed." };
 
         console.error("Authentication failed: ", dataError);
         throw new Error(dataError.error_description || "Authentication failed! Check your credentials and try again.");
     }
 
-    return data as LoginResponseOk;
+    return data as LoginResponseOkInterface;
 };
