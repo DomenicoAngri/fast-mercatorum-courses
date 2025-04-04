@@ -1,5 +1,4 @@
-import fetch from "node-fetch";
-import { LoginRequestInterface, LoginResponseOkInterface, LoginResponseErrorInterface } from "../../types/authentication/auth.types.js";
+import { LoginRequestInterface, LoginResponseInterface } from "../../types/authentication/auth.types.js";
 
 import { createApiClient } from "../../utils/api-client.js";
 
@@ -9,15 +8,20 @@ const authApiClient = createApiClient({
     apiName: "Authentication API",
 });
 
-// TODO - Sistemare la risposta della login
-// TODO - Sistemare tutto il flusso da service fino ad index
-// TODO - Capire se usare Login Response personale ok o error.
+// TODO - Aggiungere login request anche al FE? aggiustare i campi di request e di response nel FE.
+// TODO - Sistemare tutto il flusso da service fino ad index, vedere se c'è qualcosa che non va o mi sono perso qualcosa.
 // TODO - Sistemare il logout
+// TODO - quando seleziono da autocompile il campo, mi da una brutta grafica.
+// TODO - modificare la login response con campi che non servono da cancellare.
+// TODO - Controllare i todo.
+// TODO - Capire perchè non usa le risposte personali di errore.
+// TODO - Vedere i console log ed i console error.
+// TODO - Vedere se mettere i console.log solo in development.
 
 /**
  * Service for handling login logic.
  */
-export const loginService = async (loginData: LoginRequestInterface): Promise<LoginResponseOkInterface> => {
+export const loginService = async (loginData: LoginRequestInterface): Promise<LoginResponseInterface> => {
     // Prepare the payload for the authentication API.
     const payload = {
         client_id: 5,
@@ -28,25 +32,5 @@ export const loginService = async (loginData: LoginRequestInterface): Promise<Lo
         password: loginData.password,
     };
 
-    // Call the external authentication API.
-    const response = await fetch("https://signin-api.prod.multiversity.click/oauth/token", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-
-        body: JSON.stringify(payload),
-    });
-
-    const data = await response.json();
-
-    // If the external API returns an error.
-    if (!response.ok) {
-        const dataError: LoginResponseErrorInterface = data ? data : { error_description: "Authentication failed." };
-
-        console.error("Authentication failed: ", dataError);
-        throw new Error(dataError.error_description || "Authentication failed! Check your credentials and try again.");
-    }
-
-    return data as LoginResponseOkInterface;
+    return await authApiClient.post<LoginResponseInterface>("/oauth/token", payload);
 };

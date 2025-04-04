@@ -37,16 +37,16 @@ const Login: FunctionComponent = () => {
                 body: JSON.stringify(formData),
             });
 
+            // TODO: inserire i tipi in response data in TS.
+            const responseData = await response.json();
+
             if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.message || "Login failed");
+                throw new Error(responseData.message || "Login failed.");
             }
 
-            const data: LoginResponse = await response.json();
-
             // Store token in localStorage
-            localStorage.setItem("token", data.access_token);
-            localStorage.setItem("token_expiry", (Date.now() + data.expires_in * 1000).toString());
+            localStorage.setItem("token", responseData.access_token);
+            localStorage.setItem("token_expiry", (Date.now() + responseData.expires_in * 1000).toString());
 
             // Redirect to dashboard or main page
             window.location.href = "/dashboard";

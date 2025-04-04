@@ -112,6 +112,7 @@ export const validateCredentialsMiddleware = (req: Request, res: Response, next:
     }
 };
 
+// TODO: delete this middleware if not needed.
 // export const escapePasswordSpecialChars = (req: Request, res: Response, next: NextFunction): void => {
 //     try {
 //         const { password } = req.body as LoginRequest;
