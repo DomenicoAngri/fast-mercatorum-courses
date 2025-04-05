@@ -14,9 +14,7 @@ const authApiClient = createApiClient({
 // TODO - quando seleziono da autocompile il campo, mi da una brutta grafica.
 // TODO - modificare la login response con campi che non servono da cancellare.
 // TODO - Controllare i todo.
-// TODO - Capire perchè non usa le risposte personali di errore.
-// TODO - Vedere i console log ed i console error.
-// TODO - Vedere se mettere i console.log solo in development.
+// TODO - Vedere se mettere i console.log solo in development sul FE.
 
 /**
  * Service for handling login logic.

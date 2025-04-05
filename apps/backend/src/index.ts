@@ -17,10 +17,11 @@ app.use(express.json());
 // API router gateway
 app.use("/api", routes);
 
+// TODO: Check if this is needed.
 // Health check endpoint
-app.get("/health", (req, res) => {
-    res.status(200).json({ status: "ok" });
-});
+// app.get("/health", (req, res) => {
+//     res.status(200).json({ status: "ok" });
+// });
 
 // 404 middleware handler route not found - must be after all defined routes.
 app.use(notFoundHandler);

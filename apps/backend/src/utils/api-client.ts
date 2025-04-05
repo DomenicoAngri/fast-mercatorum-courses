@@ -101,7 +101,7 @@ export class ApiClient {
         };
 
         try {
-            // Create abort controller for timeout.
+            // Create abort controller for timeout. If response takes longer than timeout, abort the request.
             const controller = new AbortController();
             const timeoutId = setTimeout(() => controller.abort(), this.timeout);
 
@@ -112,7 +112,7 @@ export class ApiClient {
                 signal: controller.signal,
             })) as Response;
 
-            // Clear timeout.
+            // Clear timeout, if request completes before timeout.
             clearTimeout(timeoutId);
 
             // Parse response.
@@ -166,8 +166,8 @@ export class ApiClient {
          *  Check for specific error codes that might indicate specific domain errors.
          */
 
-        // For invalid credentials.
-        if (errorCode === "invalid_credentials" || message.includes("invalid credentials")) {
+        // For invalid credentials. We can edit error codes in the future if change.
+        if (errorCode === "invalid_credentials" || errorCode === "invalid_grant" || message.includes("invalid credentials")) {
             return new InvalidCredentialsError(message);
         }
 
