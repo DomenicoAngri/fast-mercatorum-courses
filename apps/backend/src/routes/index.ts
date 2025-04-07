@@ -4,7 +4,7 @@ import authRoutes from "./authentication/auth.routes.js";
 
 const router = express.Router();
 
-// Mount the different route modules
+// Mount the different route modules.
 router.use("/auth", authRoutes);
 // router.use("/course", courseRoutes);
 

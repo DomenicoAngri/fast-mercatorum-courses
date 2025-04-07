@@ -3,20 +3,22 @@ import { useState, useEffect } from "preact/hooks";
 import Login from "./pages/Login/Login";
 import "./app.css";
 
+// TODO: Vedere se inserire una library logger nell'app.
+
 const App: FunctionComponent = () => {
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
     useEffect(() => {
         // Check if user is authenticated
-        const token = localStorage.getItem("token");
-        const tokenExpiry = localStorage.getItem("token_expiry");
+        const token = localStorage.getItem("access_token");
+        const tokenExpiry = localStorage.getItem("expiry_in");
 
         if (token && tokenExpiry && parseInt(tokenExpiry) > Date.now()) {
             setIsAuthenticated(true);
         } else {
             // Clear invalid tokens
-            localStorage.removeItem("token");
-            localStorage.removeItem("token_expiry");
+            localStorage.removeItem("access_token");
+            localStorage.removeItem("expiry_in");
         }
     }, []);
 
@@ -29,8 +31,8 @@ const App: FunctionComponent = () => {
             <button
                 className="mt-4 px-4 py-2 bg-red-500 text-white rounded"
                 onClick={() => {
-                    localStorage.removeItem("token");
-                    localStorage.removeItem("token_expiry");
+                    localStorage.removeItem("access_token");
+                    localStorage.removeItem("expiry_in");
                     setIsAuthenticated(false);
                 }}
             >

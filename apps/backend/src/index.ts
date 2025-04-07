@@ -17,11 +17,19 @@ app.use(express.json());
 // API router gateway
 app.use("/api", routes);
 
-// TODO: Check if this is needed.
-// Health check endpoint
-// app.get("/health", (req, res) => {
-//     res.status(200).json({ status: "ok" });
-// });
+/**
+ * Health Check Endpoint
+ *
+ * This endpoint serves monitoring systems, load balancers, and orchestration tools
+ * (like Kubernetes) to verify that the service is up and running. It returns a simple
+ * 200 status with a JSON containing the current status of the service.
+ *
+ * It is not intended for use by the application's frontend, but by external systems
+ * that need to verify the service availability.
+ */
+app.get("/health", (req, res) => {
+    res.status(200).json({ status: "ok" });
+});
 
 // 404 middleware handler route not found - must be after all defined routes.
 app.use(notFoundHandler);

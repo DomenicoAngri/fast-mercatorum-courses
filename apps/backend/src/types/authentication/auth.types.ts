@@ -14,8 +14,4 @@ export interface LoginResponseInterface {
     refresh_token: string;
     expires_in: number;
     token_type: string;
-
-    success?: boolean;
-    message?: string;
-    error_description?: string;
 }

@@ -1,9 +1,9 @@
 import { useState } from "preact/hooks";
 import { FunctionComponent } from "preact";
-import { LoginFormData, LoginResponse } from "./Login.types";
+import { LoginRequestInterface, LoginResponseInterface } from "./Login.types";
 
 const Login: FunctionComponent = () => {
-    const [formData, setFormData] = useState<LoginFormData>({
+    const [formData, setFormData] = useState<LoginRequestInterface>({
         username: "",
         password: "",
     });
@@ -37,18 +37,20 @@ const Login: FunctionComponent = () => {
                 body: JSON.stringify(formData),
             });
 
-            // TODO: inserire i tipi in response data in TS.
-            const responseData = await response.json();
+            const responseData: LoginResponseInterface = await response.json();
 
             if (!response.ok) {
                 throw new Error(responseData.message || "Login failed.");
             }
 
-            // Store token in localStorage
-            localStorage.setItem("token", responseData.access_token);
-            localStorage.setItem("token_expiry", (Date.now() + responseData.expires_in * 1000).toString());
+            if (responseData && responseData.access_token && responseData.expires_in && responseData.refresh_token) {
+                // Store token in localStorage.
+                localStorage.setItem("access_token", responseData.access_token);
+                localStorage.setItem("refresh_token", responseData.refresh_token);
+                localStorage.setItem("expiry_in", (Date.now() + responseData?.expires_in * 1000).toString());
+            }
 
-            // Redirect to dashboard or main page
+            // Redirect to dashboard or main page.
             window.location.href = "/dashboard";
         } catch (err) {
             setError(err instanceof Error ? err.message : "An unknown error occurred... 😱");
