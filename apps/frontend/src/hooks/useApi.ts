@@ -60,7 +60,6 @@ export const useApi = <T = any>(): UseApiInterface<T> => {
      * - Timeout support
      * - Authentication token inclusion
      * - Error handling with appropriate messages
-     * - Auto-logout on authentication errors
      *
      * @param url - The URL to request
      * @param options - Request options including timeout
@@ -97,44 +96,31 @@ export const useApi = <T = any>(): UseApiInterface<T> => {
             // Clear the timeout.
             clearTimeout(timeoutId);
 
-            // TODO: verificare se la chiamata va a buon fine se errore non consuma il body della response.
             // Handle HTTP errors.
             if (!response.ok) {
                 const errorData = await response.json().catch(() => ({}));
-                const errorMessage = errorData.message || `HTTP Error: ${response.status}`;
+                const errorMessage = errorData.message || `HTTP Error: ${response.status}.`;
                 throw new Error(errorMessage);
             }
 
-            // Parse the response body
+            // Parse the response body if the request was successful.
             const data = (await response.json()) as T;
             setState({ data, isLoading: false, error: null });
+
             return data;
         } catch (err) {
             clearTimeout(timeoutId);
 
-            // Handle timeout errors specifically
-            if (err.name === "AbortError") {
-                const errorMessage = "Request timed out";
+            // Handle timeout errors specifically.
+            if (err && typeof err === "object" && "name" in err && err.name === "AbortError") {
+                const errorMessage = "Request timed out. Please try again.";
                 setState((prev) => ({ ...prev, isLoading: false, error: errorMessage }));
                 return null;
             }
 
-            // Other errors
-            const errorMessage = err instanceof Error ? err.message : "An unknown error occurred";
+            // Other errors.
+            const errorMessage = err instanceof Error ? err.message : "An unknown error occurred 😱";
             setState((prev) => ({ ...prev, isLoading: false, error: errorMessage }));
-
-            // If authentication error, redirect to login
-            if (
-                errorMessage.includes("401") ||
-                errorMessage.includes("403") ||
-                errorMessage.toLowerCase().includes("unauthorized") ||
-                errorMessage.toLowerCase().includes("authentication")
-            ) {
-                localStorage.removeItem("access_token");
-                localStorage.removeItem("refresh_token");
-                localStorage.removeItem("expiry_in");
-                window.location.href = "/";
-            }
 
             return null;
         }

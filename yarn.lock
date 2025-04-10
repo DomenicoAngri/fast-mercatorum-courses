@@ -2296,9 +2296,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fastcourse@workspace:.":
+"fast-mercatorum-courses@workspace:.":
   version: 0.0.0-use.local
-  resolution: "fastcourse@workspace:."
+  resolution: "fast-mercatorum-courses@workspace:."
   dependencies:
     prettier: "npm:^3.5.3"
     turbo: "npm:^2.4.4"

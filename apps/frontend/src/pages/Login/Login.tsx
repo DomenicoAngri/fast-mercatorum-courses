@@ -1,15 +1,15 @@
 import { useState } from "preact/hooks";
 import { FunctionComponent } from "preact";
 import { LoginRequestInterface, LoginResponseInterface } from "./Login.types";
+import { useApi } from "../../hooks/useApi";
 
 const Login: FunctionComponent = () => {
+    const { isLoading, error, reset, fetchData } = useApi<LoginResponseInterface>();
+
     const [formData, setFormData] = useState<LoginRequestInterface>({
         username: "",
         password: "",
     });
-
-    const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [error, setError] = useState<string | null>(null);
 
     const handleInputChange = (e: Event) => {
         const target = e.target as HTMLInputElement;
@@ -22,45 +22,39 @@ const Login: FunctionComponent = () => {
 
     const handleSubmit = async (e: Event) => {
         e.preventDefault();
-        setIsLoading(true);
-        setError(null);
 
-        try {
-            const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
+        // Reset the state before making a new request.
+        reset();
 
-            const response = await fetch(`${apiUrl}/auth/login`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
+        // Import the API URL from environment variables.
+        const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
 
-                body: JSON.stringify(formData),
-            });
+        // Perform the API request to log in with custom hook.
+        const responseData = await fetchData(`${apiUrl}/auth/login`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData),
+        });
 
-            const responseData: LoginResponseInterface = await response.json();
+        // If responseData is not null, it means the request was successful.
+        if (responseData) {
+            localStorage.setItem("access_token", responseData.access_token || "");
+            localStorage.setItem("refresh_token", responseData.refresh_token || "");
 
-            if (!response.ok) {
-                throw new Error(responseData.message || "Login failed.");
+            // Store the expiry time in localStorage if it exists.
+            if (responseData.expires_in) {
+                localStorage.setItem("expiry_in", (Date.now() + responseData.expires_in * 1000).toString());
             }
 
-            if (responseData && responseData.access_token && responseData.expires_in && responseData.refresh_token) {
-                // Store token in localStorage.
-                localStorage.setItem("access_token", responseData.access_token);
-                localStorage.setItem("refresh_token", responseData.refresh_token);
-                localStorage.setItem("expiry_in", (Date.now() + responseData?.expires_in * 1000).toString());
-            }
-
-            // Redirect to dashboard or main page.
+            // Redirect to dashboard.
             window.location.href = "/dashboard";
-        } catch (err) {
-            setError(err instanceof Error ? err.message : "An unknown error occurred... 😱");
-        } finally {
-            setIsLoading(false);
         }
     };
 
     return (
-        <div className="absolute inset-0 flex flex-col items-center justify-center" style={{ backgroundColor: "rgb(215, 60, 65)" }}>
+        <div className="absolute inset-0 flex flex-col items-center justify-center bg-provaprova">
             {/* Logo */}
             <div className="text-center text-white mb-8">
                 <div className="mb-2">
@@ -118,8 +112,7 @@ const Login: FunctionComponent = () => {
                         <button
                             type="submit"
                             disabled={isLoading}
-                            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 disabled:opacity-70"
-                            style={{ backgroundColor: "rgb(215, 60, 65)" }}
+                            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 disabled:opacity-70 bg-provaprova"
                         >
                             {isLoading ? "Accesso in corso..." : "Accedi"}
                         </button>
