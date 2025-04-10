@@ -54,7 +54,7 @@ const Login: FunctionComponent = () => {
     };
 
     return (
-        <div className="absolute inset-0 flex flex-col items-center justify-center bg-provaprova">
+        <div className="absolute inset-0 flex flex-col items-center justify-center bg-mercatorum">
             {/* Logo */}
             <div className="text-center text-white mb-8">
                 <div className="mb-2">
@@ -112,7 +112,7 @@ const Login: FunctionComponent = () => {
                         <button
                             type="submit"
                             disabled={isLoading}
-                            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 disabled:opacity-70 bg-provaprova"
+                            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 disabled:opacity-70 bg-mercatorum"
                         >
                             {isLoading ? "Accesso in corso..." : "Accedi"}
                         </button>
