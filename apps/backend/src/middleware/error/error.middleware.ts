@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { AppError } from "../../utils/errors.js";
+import { AppError } from "@utils/index.js";
 
 /**
  * Global error handling middleware.

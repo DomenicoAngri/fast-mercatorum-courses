@@ -10,7 +10,16 @@
         "esModuleInterop": true,
         "skipLibCheck": true,
         "forceConsistentCasingInFileNames": true,
-        "resolveJsonModule": true
+        "resolveJsonModule": true,
+        "baseUrl": ".",
+        "paths": {
+            "@/*": ["src/*"],
+            "@services/*": ["src/services/*"],
+            "@controllers/*": ["src/controllers/*"],
+            "@utils/*": ["src/utils/*"],
+            "@app-types/*": ["src/types/*"],
+            "@middleware/*": ["src/middleware/*"]
+        }
     },
     "include": ["src/**/*"],
     "exclude": ["node_modules", "**/*.test.ts"]

@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { LoginRequestInterface } from "../../types/authentication/auth.types.js";
+import { LoginRequestInterface } from "@app-types/authentication/index.js";
 import { containsSqlInjectionPatterns } from "./auth.middleware.utils.js";
 
 /**

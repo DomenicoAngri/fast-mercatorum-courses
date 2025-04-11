@@ -1,6 +1,6 @@
 import type { NextFunction, Request, Response } from "express";
-import { LoginRequestInterface } from "../../types/authentication/auth.types.js";
-import { loginService } from "../../services/authentication/auth.service.js";
+import { LoginRequestInterface } from "@app-types/authentication/index.js";
+import { loginService } from "@services/authentication/index.js";
 
 // Login controller
 export const loginController = async (req: Request, res: Response, next: NextFunction): Promise<void> => {

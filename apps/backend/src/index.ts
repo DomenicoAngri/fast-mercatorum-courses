@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import * as dotenv from "dotenv";
 import routes from "./routes/index.js";
-import { notFoundHandler, errorHandler } from "./middleware/error/error.middleware.js";
+import { notFoundHandler, errorHandler } from "@middleware/error/index.js";
 
 // Load environment variables
 dotenv.config();

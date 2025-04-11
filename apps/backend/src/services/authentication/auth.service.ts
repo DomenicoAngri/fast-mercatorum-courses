@@ -1,5 +1,5 @@
-import { LoginRequestInterface, LoginResponseInterface } from "../../types/authentication/auth.types.js";
-import { createApiClient } from "../../utils/api-client.js";
+import { LoginRequestInterface, LoginResponseInterface } from "@app-types/authentication/index.js";
+import { createApiClient } from "@utils/index.js";
 
 // Create a pre-configured API client for authentication API
 const authApiClient = createApiClient({
