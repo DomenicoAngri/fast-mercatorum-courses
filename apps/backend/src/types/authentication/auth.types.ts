@@ -7,6 +7,13 @@ export interface LoginRequestInterface {
 }
 
 /**
+ * Refresh token request data structure.
+ */
+export interface RequestNewTokenInterface {
+    refresh_token: string;
+}
+
+/**
  * Login response from auth API if successful.
  */
 export interface LoginResponseInterface {

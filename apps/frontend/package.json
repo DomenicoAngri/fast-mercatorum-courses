@@ -1,6 +1,6 @@
 {
     "name": "frontend",
-    "version": "0.9.2",
+    "version": "0.10.0",
     "description": "Frontend with PReact, Vite and Tailwind for Fast Mercatorum Courses - Unimercatorum.",
     "private": true,
     "type": "module",

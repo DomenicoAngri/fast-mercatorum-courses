@@ -5,8 +5,7 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import "./app.css";
 
 // TODO: Vedere se inserire una library logger nell'app.
-
-// TODO: cosa sto facendo - Devo rivedere il multiple api dell'hook ed inizializzare la dashboard.
+// TODO: inserire module import anche nel FE.
 
 const App: FunctionComponent = () => {
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);

@@ -1,11 +1,11 @@
 import express from "express";
-// controller
+import { getStudentInfoController, getStudentCareerController, getStudentCoursesToCompleteController } from "@controllers/student/index.js";
 
 const router = express.Router();
 
-// TODO: - capire se implementare un middleware che controlli se loggati.
-
-// Auth routes
-router.post("/student");
+// Student routes.
+router.get("/student-info", getStudentInfoController);
+router.get("/career-info", getStudentInfoController);
+router.get("/course-to-complete", getStudentInfoController);
 
 export default router;
